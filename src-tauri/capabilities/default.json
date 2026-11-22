@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "دسترسی‌های پنجرهٔ اصلی: فقط پایه‌ای‌ترین‌ها + تنظیم تم نوار عنوان. هیچ افزونهٔ شبکه‌ای، فایل‌سیستمی یا باز کردن لینک فعال نیست. افزونهٔ پنجرهٔ «انتخاب پوشه» (همگام‌سازی) فقط از سمت Rust استفاده می‌شود و هیچ مجوز dialog:* به رابط داده نشده است.",
+  "windows": ["main"],
+  "permissions": ["core:default", "core:window:allow-set-theme"]
+}

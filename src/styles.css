@@ -1,0 +1,826 @@
+/* فونت وزیرمتن (متغیر، SIL OFL 1.1) داخل برنامه بسته‌بندی شده؛ هیچ CDN ای در کار نیست. */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("./assets/fonts/Vazirmatn-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ───────────── رنگ‌ها ───────────── */
+:root {
+  --font: "Vazirmatn", "Segoe UI", Tahoma, system-ui, sans-serif;
+  --bg: #f8f6f1;
+  --panel: #f1eee6;
+  --surface: #fffdf9;
+  --ink: #1d1c19;
+  --ink-soft: #5f5a50;
+  --line: #dcd7c9;
+  --line-soft: #e7e3d8;
+  --accent: #8a3322;
+  --accent-bg: rgba(138, 51, 34, 0.09);
+  --mark: #f6df93;
+  --mark-ink: #1d1c19;
+  --shadow: 0 10px 34px rgba(40, 30, 10, 0.18);
+  /* رنگ‌های برچسب <font> در دیتا (فقط همین چهار رنگ) */
+  --c-red: #a3261c;
+  --c-blue: #1f5fa8;
+  --c-green: #1f6b3a;
+  --c-pink: #b0306f;
+  color-scheme: light;
+}
+
+/* تاریک: پیرو سیستم، مگر کاربر «روشن» را انتخاب کرده باشد */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151519;
+    --panel: #1b1b20;
+    --surface: #202026;
+    --ink: #e9e5dc;
+    --ink-soft: #a7a296;
+    --line: #34343c;
+    --line-soft: #2a2a31;
+    --accent: #ec9a84;
+    --accent-bg: rgba(236, 154, 132, 0.13);
+    --mark: #6d5a17;
+    --mark-ink: #fff4cf;
+    --shadow: 0 10px 34px rgba(0, 0, 0, 0.55);
+    --c-red: #ff8f80;
+    --c-blue: #8fbbf4;
+    --c-green: #82d49f;
+    --c-pink: #ffa3cb;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #151519;
+  --panel: #1b1b20;
+  --surface: #202026;
+  --ink: #e9e5dc;
+  --ink-soft: #a7a296;
+  --line: #34343c;
+  --line-soft: #2a2a31;
+  --accent: #ec9a84;
+  --accent-bg: rgba(236, 154, 132, 0.13);
+  --mark: #6d5a17;
+  --mark-ink: #fff4cf;
+  --shadow: 0 10px 34px rgba(0, 0, 0, 0.55);
+  --c-red: #ff8f80;
+  --c-blue: #8fbbf4;
+  --c-green: #82d49f;
+  --c-pink: #ffa3cb;
+  color-scheme: dark;
+}
+
+/* ───────────── پایه ───────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+h1,
+h2,
+h3 {
+  line-height: 1.4;
+}
+kbd {
+  font-family: inherit;
+  font-size: 0.78rem;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 0 6px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+}
+.muted {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.ltr {
+  direction: ltr;
+  text-align: right;
+  unicode-bidi: isolate;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+/* ───────────── چیدمان ───────────── */
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(250px, 330px) 1fr;
+}
+.side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--panel);
+  border-inline-end: 1px solid var(--line);
+}
+.content {
+  min-width: 0;
+  overflow-y: auto;
+}
+
+/* ───────────── جست‌وجو ───────────── */
+.search {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.search-input {
+  width: 100%;
+  height: 44px;
+  padding-block: 0;
+  padding-inline: 16px 118px;
+  font-size: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.search-input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+.search-input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+.search-trailing {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-hint {
+  pointer-events: none;
+}
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ───────────── دکمه‌ها ───────────── */
+.seg {
+  display: inline-flex;
+  padding: 2px;
+  gap: 2px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.seg button {
+  border: 0;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 7px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.seg button.on {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
+}
+.seg button:disabled {
+  opacity: 0.45;
+}
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.icon-btn:hover:not(:disabled) {
+  background: rgba(127, 127, 127, 0.16);
+  color: var(--ink);
+}
+.icon-btn:disabled {
+  opacity: 0.4;
+}
+.tool-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+.tool-btn:hover,
+.tool-btn[aria-expanded="true"] {
+  background: rgba(127, 127, 127, 0.14);
+  color: var(--ink);
+}
+.link-btn {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ───────────── منوی ظاهر ───────────── */
+.menu-wrap {
+  position: relative;
+}
+.menu {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+  min-width: 300px;
+  display: grid;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.menu-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.menu-label {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+}
+.stepper-value {
+  min-width: 56px;
+  border: 0;
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 3px 4px;
+}
+
+/* ───────────── فهرست کناری ───────────── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+.tab {
+  flex: 1;
+  padding: 10px 4px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.tab.on {
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+}
+.tab-count {
+  margin-inline-start: 5px;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+.side-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.vlist {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.vrow {
+  cursor: pointer;
+  border-inline-start: 3px solid transparent;
+}
+.vrow:hover {
+  background: rgba(127, 127, 127, 0.09);
+}
+.vrow.active {
+  background: var(--accent-bg);
+  border-inline-start-color: var(--accent);
+}
+.row {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+}
+.row-word {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.06rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row-count {
+  min-width: 26px;
+  padding: 0 7px;
+  text-align: center;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.row-fts {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1px;
+}
+/* در چیدمان ستونی، flex:1 ارتفاع را می‌خورد و خلاصه را به پایین ردیف می‌راند */
+.row-fts .row-word {
+  flex: none;
+}
+.row-snippet {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--mark);
+  color: var(--mark-ink);
+}
+
+/* ───────────── نمای مدخل (متن بلند) ───────────── */
+.entry-view {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 26px 34px 90px;
+  transition: opacity 0.12s;
+}
+.entry-view.loading {
+  opacity: 0.55;
+}
+.entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.headword {
+  margin: 0;
+  font-size: 2.15rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.badge {
+  padding: 1px 11px;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.entry-actions {
+  margin-inline-start: auto;
+  display: flex;
+  gap: 8px;
+}
+.act {
+  padding: 5px 13px;
+  font-size: 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.act:hover {
+  border-color: var(--ink-soft);
+}
+.act.on {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 0.9rem;
+}
+.pager-bottom {
+  margin-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.pager button {
+  padding: 5px 13px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.pager button:disabled {
+  opacity: 0.4;
+}
+.pager-info {
+  color: var(--ink-soft);
+}
+.entry {
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.entry:last-of-type {
+  border-bottom: 0;
+}
+.entry.focus {
+  margin-inline: -14px;
+  padding-inline: 14px;
+  background: var(--accent-bg);
+  border-radius: 10px;
+}
+.entry-label {
+  margin-bottom: 2px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.entry-body {
+  font-size: calc(1.14rem * var(--reading-scale, 1));
+  line-height: 2.15;
+  overflow-wrap: break-word;
+  /* تراز دوطرفه: انتهای سطرهای متن معنی هم‌سان می‌شود. سطری که با شکست خط (<br>) تمام می‌شود، مثل هر
+     مصرع شعر، و آخرین سطر هر بند کشیده نمی‌شود و همان‌طور راست‌چین می‌ماند. */
+  text-align: justify;
+  text-align-last: start;
+}
+/* نشانه‌گذاری دیتا: سرواژه/تأکید، و چهار رنگ برچسب (سازگار با حالت تاریک) */
+.entry-body .hlight,
+.entry-body b {
+  font-weight: 700;
+}
+.entry-body font[color="red"] {
+  color: var(--c-red);
+}
+.entry-body font[color="blue"] {
+  color: var(--c-blue);
+}
+.entry-body font[color="darkgreen"] {
+  color: var(--c-green);
+}
+.entry-body font[color="hotpink"] {
+  color: var(--c-pink);
+}
+
+.welcome {
+  max-width: 34rem;
+  margin: 16vh auto 0;
+  padding: 0 24px;
+  text-align: center;
+}
+.welcome h1 {
+  margin: 0 0 0.4em;
+  font-size: 2.1rem;
+}
+
+/* ───────────── پیام و پنجرهٔ دربارهٔ ───────────── */
+.toast-region {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 18px;
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  padding: 8px 16px;
+  font-size: 0.92rem;
+  color: var(--bg);
+  background: var(--ink);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  animation: toast-in 0.16s ease-out;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.42);
+}
+.dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.dialog-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.dialog-body {
+  padding: 16px 20px 22px;
+}
+.dialog-body h3 {
+  margin: 18px 0 6px;
+  font-size: 1rem;
+}
+.source {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 18px;
+  margin: 12px 0 0;
+}
+.facts dt {
+  color: var(--ink-soft);
+}
+.facts dd {
+  margin: 0;
+}
+.keys {
+  margin: 0;
+}
+.key-row {
+  display: flex;
+  gap: 14px;
+  padding: 3px 0;
+}
+.key-row dt {
+  min-width: 9.5rem;
+}
+.key-row dd {
+  margin: 0;
+}
+/* ───────────── همگام‌سازی (خروجی/ورودی) ───────────── */
+.act.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--surface);
+}
+.act.primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  border-color: var(--accent);
+}
+.act:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.sync-folder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 14px;
+}
+.sync-path {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+.sync-path.empty {
+  color: var(--ink-soft);
+}
+.sync-auto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  cursor: pointer;
+}
+.sync-auto input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--accent);
+}
+.sync-auto input:disabled,
+.sync-auto input:disabled + span {
+  opacity: 0.5;
+  cursor: default;
+}
+.sync-auto-status {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.sync-auto-status.error {
+  color: var(--c-red);
+}
+.sync-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sync-hint {
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+.sync-busy {
+  margin: 14px 0 0;
+  color: var(--ink-soft);
+}
+.sync-result {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  border-inline-start: 4px solid var(--c-green);
+}
+.sync-result.warn {
+  border-inline-start-color: var(--mark);
+}
+.sync-result.error {
+  border-inline-start-color: var(--c-red);
+}
+.sync-result p {
+  margin: 0;
+}
+.sync-result p + p,
+.sync-result ul + p {
+  margin-top: 6px;
+}
+.sync-result ul {
+  margin: 6px 0 0;
+  padding-inline-start: 1.3em;
+}
+.sync-file {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+.fatal {
+  max-width: 40rem;
+  margin: 12vh auto 0;
+  padding: 0 24px;
+}
+.fatal-msg {
+  padding: 10px 14px;
+  background: var(--accent-bg);
+  border-radius: 8px;
+}
+.fatal pre {
+  padding: 10px 14px;
+  text-align: left;
+  background: var(--panel);
+  border-radius: 8px;
+}
+
+@media (max-width: 860px) {
+  .brand {
+    display: none;
+  }
+  .body {
+    grid-template-columns: minmax(210px, 36%) 1fr;
+  }
+  .entry-view {
+    padding: 20px 18px 70px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner,
+  .toast {
+    animation: none;
+  }
+  .entry-view {
+    transition: none;
+  }
+}
